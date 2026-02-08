@@ -8,8 +8,9 @@
 make build
 make up
 cd src
-cp .example.env .env
+cp .env.example .env
 make in # 失敗したらdocker compose run api bash
 # コンテナの中で実行
+composer install
 php artisan key:generate
 ```
