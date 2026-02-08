@@ -2,7 +2,7 @@
 ## ER図
 ![](./er.png)
 ## API仕様書
-
+[こちらをクリック(notion)](https://www.notion.so/2ffe8b7611b380968899e2f6462400a3?v=2ffe8b7611b3809fb50d000ca465cd62&source=copy_link)
 ## 環境構築
 ```bash
 make build
