@@ -7,8 +7,8 @@ use Illuminate\Http\JsonResponse;
 class MutationResponse
 {
     public static function success(
-        array $data = [],
         string $message,
+        array $data = [],
         int $statusCode = 200,
     ): JsonResponse {
         return response()->json([
