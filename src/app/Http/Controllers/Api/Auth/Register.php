@@ -19,8 +19,6 @@ class Register extends Controller
 
     public function __invoke(RegisterRequest $request): JsonResponse
     {
-        Log::info('=== Register Controller Called ===');
-        Log::info('Request data:', $request->all());
         try {
             $input = new RegisterUserInput(
                 email: $request->email,
