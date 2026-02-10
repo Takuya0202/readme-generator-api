@@ -28,10 +28,10 @@ class Register extends Controller
             $output = $this->registerUserUseCase->execute($input);
 
             return MutationResponse::success(
+                message: "ユーザーの登録に成功しました。",
                 data: [
                     'token' => $output->token,
                 ],
-                message: "ユーザーの登録に成功しました。",
                 statusCode: 201,
             );
         } catch (UserAlreadyExistsException $e) {

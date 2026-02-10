@@ -26,10 +26,10 @@ class Login extends Controller
 
             $output = $this->loginUserUseCase->execute($input);
             return MutationResponse::success(
+                message: 'ログインに成功しました。',
                 data: [
                     'token' => $output->token
                 ],
-                message: 'ログインに成功しました。',
             );
         } catch (InvalidCredentialsException $e) {
             return MutationResponse::error(
