@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Project;
 
-use App\Contexts\Index\Application\UseCase\IndexProjectUseCase;
+use App\Contexts\Project\Application\UseCase\IndexProjectUseCase;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 

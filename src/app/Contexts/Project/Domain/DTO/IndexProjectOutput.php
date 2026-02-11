@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Contexts\Index\Domain\DTO;
+namespace App\Contexts\Project\Domain\DTO;
 
-use App\Contexts\Index\Domain\DTO\IndexProjectItem;
+use App\Contexts\Project\Domain\DTO\IndexProjectItem;
 
 class IndexProjectOutput
 {

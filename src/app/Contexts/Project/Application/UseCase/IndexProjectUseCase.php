@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Contexts\Index\Application\UseCase;
+namespace App\Contexts\Project\Application\UseCase;
 
-use App\Contexts\Index\Domain\DTO\IndexProjectItem;
-use App\Contexts\Index\Domain\DTO\IndexProjectOutput;
-use App\Contexts\Index\Domain\Repository\ProjectRepository;
+use App\Contexts\Project\Domain\DTO\IndexProjectItem;
+use App\Contexts\Project\Domain\DTO\IndexProjectOutput;
+use App\Contexts\Project\Domain\Repository\ProjectRepository;
 use App\Models\User;
 
 class IndexProjectUseCase

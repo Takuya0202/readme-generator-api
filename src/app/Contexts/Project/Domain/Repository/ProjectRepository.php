@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contexts\Index\Domain\Repository;
+namespace App\Contexts\Project\Domain\Repository;
 
 interface ProjectRepository
 {

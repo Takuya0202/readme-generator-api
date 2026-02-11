@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contexts\Index\Domain\DTO;
+namespace App\Contexts\Project\Domain\DTO;
 
 class IndexProjectItem
 {

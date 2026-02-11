@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use App\Contexts\Auth\Domain\Repository\UserRepository;
 use App\Contexts\Auth\Infrastructure\Repository\EloquentUserRepository;
-use App\Contexts\Index\Domain\Repository\ProjectRepository;
-use App\Contexts\Index\Infrastructure\Repository\EloquentProjectRepository;
+use App\Contexts\Project\Domain\Repository\ProjectRepository;
+use App\Contexts\Project\Infrastructure\Repository\EloquentProjectRepository;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 use App\Models\PersonalAccessToken;

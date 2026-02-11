@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Contexts\Index\Infrastructure\Repository;
+namespace App\Contexts\Project\Infrastructure\Repository;
 
-use App\Contexts\Index\Domain\Repository\ProjectRepository;
+use App\Contexts\Project\Domain\Repository\ProjectRepository;
 use App\Models\Project;
 
 class EloquentProjectRepository implements ProjectRepository
