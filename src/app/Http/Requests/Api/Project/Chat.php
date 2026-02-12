@@ -2,16 +2,19 @@
 
 namespace App\Http\Requests\Api\Project;
 
+use App\Http\Requests\Api\ApiRequest;
+use App\Models\Project;
 use Illuminate\Foundation\Http\FormRequest;
 
-class Chat extends FormRequest
+class Chat extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        $project = Project::find($this->route('projectId'));
+        return $project && $project->user_id === $this->user()->id;
     }
 
     /**
@@ -22,7 +25,16 @@ class Chat extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'message' => 'required|string|max:1000'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'message.required' => 'メッセージは必須です。',
+            'message.string' => 'メッセージは文字列で入力してください。',
+            'message.max' => 'メッセージは1000文字以内で入力してください。',
         ];
     }
 }

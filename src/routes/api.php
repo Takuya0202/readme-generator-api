@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\Login;
 use App\Http\Controllers\Api\Auth\Logout;
 use App\Http\Controllers\Api\Auth\Register;
+use App\Http\Controllers\Api\Project\Chat;
 use App\Http\Controllers\Api\Project\Create;
 use App\Http\Controllers\Api\Project\Index;
 use App\Http\Controllers\Api\Project\Show;
@@ -18,4 +19,5 @@ Route::middleware('auth:sanctum')->prefix('projects')->group(function () {
     Route::get('/', Index::class);
     Route::post('/', Create::class);
     Route::get('/{projectId}', Show::class);
+    Route::post('/{projectId}', Chat::class);
 });

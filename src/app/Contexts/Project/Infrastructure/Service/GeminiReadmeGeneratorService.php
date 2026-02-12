@@ -45,6 +45,123 @@ class GeminiReadmeGeneratorService implements GenerateReadmeService
         );
     }
 
+    public function generateWithContext(
+        string $name,
+        string $problem,
+        int $people,
+        string $period,
+        string $stack,
+        ?string $effort,
+        ?string $trouble,
+        array $messages,
+        string $userMessage
+    ): GenerateReadmeOutput {
+        $prompt = $this->buildContextualPrompt(
+            $name,
+            $problem,
+            $people,
+            $period,
+            $stack,
+            $effort,
+            $trouble,
+            $messages,
+            $userMessage
+        );
+
+        $result = Gemini::generativeModel(model: 'gemini-2.5-flash')
+            ->withGenerationConfig(
+                generationConfig: new GenerationConfig(
+                    responseMimeType: ResponseMimeType::APPLICATION_JSON,
+                    responseSchema: new Schema(
+                        type: DataType::OBJECT,
+                        properties: [
+                            'summary' => new Schema(
+                                type: DataType::STRING,
+                                description: 'ユーザーのリクエストに対してどのような修正を行ったかの説明。例：「ライセンスセクションを削除し、技術スタックを更新したREADMEを作成しました。」'
+                            ),
+                            'markdown' => new Schema(
+                                type: DataType::STRING,
+                                description: 'Markdown形式のREADME.md。改行は<br>タグを使用してください。'
+                            )
+                        ],
+                        required: ['summary', 'markdown']
+                    )
+                )
+            )
+            ->generateContent($prompt);
+        $data = json_decode($result->text(), true);
+
+        return new GenerateReadmeOutput(
+            summary: $data['summary'] ?? '',
+            markdown: $data['markdown'] ?? '',
+        );
+    }
+
+    // プロジェクトの概要と直近10件の会話履歴を取得して、README.mdを更新するためのプロンプトを生成する
+    private function buildContextualPrompt(
+        string $name,
+        string $problem,
+        int $people,
+        string $period,
+        string $stack,
+        ?string $effort,
+        ?string $trouble,
+        array $messages,
+        string $userMessage
+    ): string {
+        $basePrompt = $this->buildPrompt(
+            $name,
+            $problem,
+            $people,
+            $period,
+            $stack,
+            $effort,
+            $trouble,
+        );
+
+        $latestMarkdown = null;
+        foreach (array_reverse($messages) as $message) {
+            if ($message['format'] === 'markdown') {
+                $latestMarkdown = $message['content'];
+                break;
+            }
+        }
+
+        $conversationHistory = "\n\n## これまでの会話履歴\n";
+        foreach ($messages as $message) {
+            $role = match ($message['role']) {
+                'user' => 'ユーザー',
+                'assistant' => 'アシスタント',
+                default => 'システム',
+            };
+
+            if ($message['format'] === 'markdown') {
+                $conversationHistory .= "{$role}: [README.mdを生成しました]\n";
+            } else {
+                $conversationHistory .= "{$role}: {$message['content']}\n";
+            }
+        }
+
+        $currentReadme = '';
+        if ($latestMarkdown !== null) {
+            $currentReadme = "\n\n## 現在のREADME.md\n```markdown\n{$latestMarkdown}\n```\n\n";
+        }
+
+        $newMessage = "\n\n## 新しいユーザーからのリクエスト\n{$userMessage}\n\n";
+        $instruction = <<<INSTRUCTION
+上記のリクエストに基づいて、現在のREADME.mdを更新してください。
+
+## 出力形式の注意事項
+- summary: ユーザーのリクエストに対してどのような修正を行ったかを具体的に説明してください。
+  例：「ライセンスとかはいらないです」→「ライセンスセクションを削除したREADMEを作成しました。」
+  例：「Docker Composeの使い方も追加してください」→「Docker Composeの使い方セクションを追加したREADMEを作成しました。」
+- markdown: 完全なREADME.mdの内容
+
+JSONスキーマに従って出力してください。
+INSTRUCTION;
+
+        return $basePrompt . $conversationHistory . $currentReadme . $newMessage . $instruction;
+    }
 
     private function buildPrompt(
         string $name,
