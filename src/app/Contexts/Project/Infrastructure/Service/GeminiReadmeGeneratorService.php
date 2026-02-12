@@ -29,7 +29,7 @@ class GeminiReadmeGeneratorService implements GenerateReadmeService
                             ),
                             'markdown' => new Schema(
                                 type: DataType::STRING,
-                                description: 'Markdown形式のREADME.md'
+                                description: 'Markdown形式のREADME.md。改行は\\nとして含める。'
                             )
                         ],
                         required: ['summary', 'markdown']
@@ -60,17 +60,39 @@ class GeminiReadmeGeneratorService implements GenerateReadmeService
         $troubleText = $trouble ?? '特になし';
 
         return <<<prompt
-        今から与えられたプロジェクト情報をもとに、README.mdを生成してください。
+        あなたはプロフェッショナルなREADME.md作成者です。
+        以下のプロジェクト情報をもとに、高品質なREADME.mdを生成してください。
 
-        詳細については以下の通りです。
-        1. ユーザーからのプロダクトの概要をもとにプロダクトについて理解し、どのように受け取ったかを要約として出力し、その後markdown形式でプロダクトのREADME.mdを生成してください。
-        2. よって、出力するものは文字列としての要約とmarkdown形式のREADME.mdです。
-        3. 技術スタックに関しては与えられた技術スタックをもとにフロントエンドなのか、バックエンドなのか等を判断し、それらをREADME.mdに反映してください。
-        4. 技術スタックはshield.ioを使用し、その技術スタックにあったshieldを生成してください(例 : ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB))
-        5. 技術スタックのshield.ioの使用をやめるように言われた場合は、shield.ioを使用せずにそのまま技術スタックを反映してください。
-        6. 与えられたプロジェクトの情報をそのまま受け取って反映させるのではなく、その情報の意図を汲み取り、適切な日本語に変換して反映してください。
+        ## 出力形式
+        - summary: プロジェクトの簡潔な要約（1〜2文）
+        - markdown: 完全なREADME.mdの内容（Markdown形式）
 
-        与えられたプロジェクトに関しては以下の通りです。
+        ## README.mdの構成
+        1. # プロジェクト名
+        2. ## 概要（プロジェクトが解決する課題を含む）
+        3. ## 解決する課題（具体的に箇条書きで）
+        4. ## 特徴
+        5. ## 使用技術（技術スタックをshield.ioバッジで表示し、カテゴリ分け）
+        6. ## 開発体制（チーム人数と開発期間）
+        7. ## 工夫した点（あれば）
+        8. ## 苦労した点（あれば）
+        9. ## 使い方
+        10. ## 貢献
+        11. ## ライセンス
+
+        ## 技術スタックの表示ルール
+        - shield.ioを使用してバッジを生成
+        - 例: ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+        - フロントエンド、バックエンド、データベース、インフラ、その他などに適切に分類
+        - カテゴリごとに見出し（### フロントエンドなど）を付ける
+
+        ## 重要な注意事項
+        - markdownフィールド内の改行は\\nとして表現してください
+        - 与えられた情報を自然で読みやすい日本語に変換してください
+        - プロフェッショナルで見栄えの良い構成にしてください
+        - 情報が「特になし」の場合は、その項目は省略してください
+
+        ## プロジェクト情報
         - アプリ名: {$name}
         - 解決したい課題: {$problem}
         - チーム人数: {$people}人
@@ -79,7 +101,7 @@ class GeminiReadmeGeneratorService implements GenerateReadmeService
         - 工夫した点: {$effortText}
         - 苦労した点: {$troubleText}
 
-        JSONスキーマ通りに出力してください。
+        JSONスキーマに従って出力してください。
         prompt;
     }
 }

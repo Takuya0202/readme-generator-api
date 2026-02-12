@@ -16,4 +16,9 @@ class EloquentProjectRepository implements ProjectRepository
     {
         return Project::create($data);
     }
+
+    public function findById(string $id): ?Project
+    {
+        return Project::where('id', $id)->with('messages')->first();
+    }
 }
