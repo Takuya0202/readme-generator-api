@@ -11,4 +11,9 @@ class EloquentProjectRepository implements ProjectRepository
     {
         return Project::where('user_id', $userId)->get()->toArray();
     }
+
+    public function create(array $data): Project
+    {
+        return Project::create($data);
+    }
 }

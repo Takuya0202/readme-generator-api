@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Contexts\Auth\Domain\Repository\UserRepository;
 use App\Contexts\Auth\Infrastructure\Repository\EloquentUserRepository;
+use App\Contexts\Project\Domain\Repository\MessageRepository;
 use App\Contexts\Project\Domain\Repository\ProjectRepository;
-use App\Contexts\Project\Domain\Service\GenerateReadmeServiceInterface;
+use App\Contexts\Project\Domain\Service\GenerateReadmeService;
+use App\Contexts\Project\Infrastructure\Repository\EloquentMessageRepository;
 use App\Contexts\Project\Infrastructure\Repository\EloquentProjectRepository;
 use App\Contexts\Project\Infrastructure\Service\GeminiReadmeGeneratorService;
 use Illuminate\Support\ServiceProvider;
@@ -29,8 +31,12 @@ class AppServiceProvider extends ServiceProvider
             EloquentProjectRepository::class
         );
         $this->app->bind(
-            GenerateReadmeServiceInterface::class,
+            GenerateReadmeService::class,
             GeminiReadmeGeneratorService::class,
+        );
+        $this->app->bind(
+            MessageRepository::class,
+            EloquentMessageRepository::class
         );
     }
 

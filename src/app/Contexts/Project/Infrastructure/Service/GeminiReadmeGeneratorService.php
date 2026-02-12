@@ -3,36 +3,40 @@
 namespace App\Contexts\Project\Infrastructure\Service;
 
 use App\Contexts\Project\Domain\DTO\GenerateReadmeOutput;
-use App\Contexts\Project\Domain\Service\GenerateReadmeServiceInterface;
+use App\Contexts\Project\Domain\Service\GenerateReadmeService;
 use Gemini\Laravel\Facades\Gemini;
+use Gemini\Data\GenerationConfig;
+use Gemini\Data\Schema;
+use Gemini\Enums\DataType;
+use Gemini\Enums\ResponseMimeType;
 
-class GeminiReadmeGeneratorService implements GenerateReadmeServiceInterface
+class GeminiReadmeGeneratorService implements GenerateReadmeService
 {
-    public function generate(string $title, string $problem, int $people, string $period, string $stack, string $effort, string $trouble): GenerateReadmeOutput
+    public function generate(string $name, string $problem, int $people, string $period, string $stack, ?string $effort, ?string $trouble): GenerateReadmeOutput
     {
-        $prompt = $this->buildPrompt($title, $problem, $people, $period, $stack, $effort, $trouble);
+        $prompt = $this->buildPrompt($name, $problem, $people, $period, $stack, $effort, $trouble);
 
-        $result = Gemini::generativeModel(
-            model: 'gemini-2.5-flash',
-            GenerationConfig: [
-                'responseMimeType' => 'application/json',
-                'responseSchema' => [
-                    'type' => 'object',
-                    'properties' => [
-                        'summary' => [
-                            'type' => 'string',
-                            'description' => 'プロジェクトの要約'
+        $result = Gemini::generativeModel(model: 'gemini-2.5-flash')
+            ->withGenerationConfig(
+                generationConfig: new GenerationConfig(
+                    responseMimeType: ResponseMimeType::APPLICATION_JSON,
+                    responseSchema: new Schema(
+                        type: DataType::OBJECT,
+                        properties: [
+                            'summary' => new Schema(
+                                type: DataType::STRING,
+                                description: 'プロジェクトの要約'
+                            ),
+                            'markdown' => new Schema(
+                                type: DataType::STRING,
+                                description: 'Markdown形式のREADME.md'
+                            )
                         ],
-                        'markdown' => [
-                            'type' => 'string',
-                            'description' => 'Markdown形式のREADME.md'
-                        ]
-                    ],
-                    'required' => ['summary', 'markdown']
-                ]
-            ]
-        )->generateContent($prompt);
-
+                        required: ['summary', 'markdown']
+                    )
+                )
+            )
+            ->generateContent($prompt);
         $data = json_decode($result->text(), true);
 
         return new GenerateReadmeOutput(
@@ -43,14 +47,18 @@ class GeminiReadmeGeneratorService implements GenerateReadmeServiceInterface
 
 
     private function buildPrompt(
-        string $title,
+        string $name,
         string $problem,
         int $people,
         string $period,
         string $stack,
-        string $effort,
-        string $trouble,
+        ?string $effort,
+        ?string $trouble,
     ): string {
+        // nullの場合は「特になし」に変換
+        $effortText = $effort ?? '特になし';
+        $troubleText = $trouble ?? '特になし';
+
         return <<<prompt
         今から与えられたプロジェクト情報をもとに、README.mdを生成してください。
 
@@ -63,13 +71,13 @@ class GeminiReadmeGeneratorService implements GenerateReadmeServiceInterface
         6. 与えられたプロジェクトの情報をそのまま受け取って反映させるのではなく、その情報の意図を汲み取り、適切な日本語に変換して反映してください。
 
         与えられたプロジェクトに関しては以下の通りです。
-        - アプリ名: {$title}
+        - アプリ名: {$name}
         - 解決したい課題: {$problem}
         - チーム人数: {$people}人
         - 開発期間: {$period}
         - 技術スタック: {$stack}
-        - 工夫した点: {$effort}
-        - 苦労した点: {$trouble}
+        - 工夫した点: {$effortText}
+        - 苦労した点: {$troubleText}
 
         JSONスキーマ通りに出力してください。
         prompt;

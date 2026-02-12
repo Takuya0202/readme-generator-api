@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Api\Project;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Api\ApiRequest;
 
-class Create extends FormRequest
+class Create extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class Create extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:32',
+            'name' => 'required|string|max:32',
             'problem' => 'required',
             'people' => 'required|integer|min:1',
             'period' => 'required|string|max:32',
@@ -33,8 +33,8 @@ class Create extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required' => 'アプリ名は必須です。',
-            'title.max' => 'アプリ名は32文字以内で入力してください。',
+            'name.required' => 'アプリ名は必須です。',
+            'name.max' => 'アプリ名は32文字以内で入力してください。',
             'problem.required' => 'アプリの課題は必須です。',
             'people.required' => '人数は必須です。',
             'people.integer' => '人数は整数で入力してください。',

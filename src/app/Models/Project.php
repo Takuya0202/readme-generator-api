@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
@@ -11,7 +13,9 @@ class Project extends Model
     public $keyType = 'string';
 
     protected $fillable = [
-        'title',
+        'id',
+        'user_id',
+        'name',
         'problem',
         'people',
         'period',
@@ -19,4 +23,14 @@ class Project extends Model
         'effort',
         'trouble',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
 }
