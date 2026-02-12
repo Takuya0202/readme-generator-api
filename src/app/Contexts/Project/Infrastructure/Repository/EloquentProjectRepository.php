@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Contexts\Project\Infrastructure\Repository;
+
+use App\Contexts\Project\Domain\Repository\ProjectRepository;
+use App\Models\Project;
+
+class EloquentProjectRepository implements ProjectRepository
+{
+    public function getAllProjectsByUserId(int $userId): array
+    {
+        return Project::where('user_id', $userId)->get()->toArray();
+    }
+
+    public function create(array $data): Project
+    {
+        return Project::create($data);
+    }
+
+    public function findById(string $id): ?Project
+    {
+        return Project::where('id', $id)->with('messages')->first();
+    }
+}

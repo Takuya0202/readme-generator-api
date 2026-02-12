@@ -1,0 +1,28 @@
+FROM php:8.4-fpm
+
+WORKDIR /var/www/html
+
+RUN apt-get update && apt-get install -y \
+    zip \
+    unzip \
+    nginx \
+    && docker-php-ext-install pdo_mysql \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
+
+COPY . /var/www/html
+WORKDIR /var/www/html/src
+
+RUN composer install --optimize-autoloader --no-dev
+
+RUN chown -R www-data:www-data /var/www/html/src/storage /var/www/html/src/bootstrap/cache
+
+COPY nginx.conf /etc/nginx/sites-available/default
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+EXPOSE 8000
+
+CMD ["/start.sh"]
