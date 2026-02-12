@@ -11,4 +11,19 @@ class EloquentMessageRepository implements MessageRepository
     {
         return Message::create($data);
     }
+
+    public function getRecentMessages(string $projectId): array
+    {
+        return Message::where('project_id', $projectId)
+            ->orderBy('created_at', 'asc')
+            ->take(10)
+            ->get()
+            ->map(fn(Message $message) => [
+                'id' => $message->id,
+                'role' => $message->role,
+                'content' => $message->content,
+                'format' => $message->format,
+            ])
+            ->toArray();
+    }
 }
