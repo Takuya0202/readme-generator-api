@@ -1,0 +1,117 @@
+# flyctl launch added from src/.gitignore
+src/**/*.log
+src/**/.DS_Store
+src/**/.env
+src/**/.env.backup
+src/**/.env.production
+src/**/.phpactor.json
+src/**/.phpunit.result.cache
+src/.fleet
+src/.idea
+src/.nova
+src/.phpunit.cache
+src/.vscode
+src/.zed
+src/auth.json
+src/node_modules
+src/public/build
+src/public/hot
+src/public/storage
+src/storage/*.key
+src/storage/pail
+src/vendor
+src/**/Homestead.json
+src/**/Homestead.yaml
+src/**/Thumbs.db
+
+# flyctl launch added from src/bootstrap/cache/.gitignore
+src/bootstrap/cache/**/*
+!src/bootstrap/cache/**/.gitignore
+
+# flyctl launch added from src/database/.gitignore
+src/database/**/*.sqlite*
+
+# flyctl launch added from src/storage/app/.gitignore
+src/storage/app/**/*
+!src/storage/app/**/private
+!src/storage/app/**/public
+!src/storage/app/**/.gitignore
+
+# flyctl launch added from src/storage/app/private/.gitignore
+src/storage/app/private/**/*
+!src/storage/app/private/**/.gitignore
+
+# flyctl launch added from src/storage/app/public/.gitignore
+src/storage/app/public/**/*
+!src/storage/app/public/**/.gitignore
+
+# flyctl launch added from src/storage/framework/.gitignore
+src/storage/framework/**/compiled.php
+src/storage/framework/**/config.php
+src/storage/framework/**/down
+src/storage/framework/**/events.scanned.php
+src/storage/framework/**/maintenance.php
+src/storage/framework/**/routes.php
+src/storage/framework/**/routes.scanned.php
+src/storage/framework/**/schedule-*
+src/storage/framework/**/services.json
+
+# flyctl launch added from src/storage/framework/cache/.gitignore
+src/storage/framework/cache/**/*
+!src/storage/framework/cache/**/data
+!src/storage/framework/cache/**/.gitignore
+
+# flyctl launch added from src/storage/framework/cache/data/.gitignore
+src/storage/framework/cache/data/**/*
+!src/storage/framework/cache/data/**/.gitignore
+
+# flyctl launch added from src/storage/framework/sessions/.gitignore
+src/storage/framework/sessions/**/*
+!src/storage/framework/sessions/**/.gitignore
+
+# flyctl launch added from src/storage/framework/testing/.gitignore
+src/storage/framework/testing/**/*
+!src/storage/framework/testing/**/.gitignore
+
+# flyctl launch added from src/storage/framework/views/.gitignore
+src/storage/framework/views/**/*
+!src/storage/framework/views/**/.gitignore
+
+# flyctl launch added from src/storage/logs/.gitignore
+src/storage/logs/**/*
+!src/storage/logs/**/.gitignore
+
+# flyctl launch added from src/vendor/google-gemini-php/client/.gitignore
+src/vendor/google-gemini-php/client/.phpunit.cache
+src/vendor/google-gemini-php/client/.php-cs-fixer.cache
+src/vendor/google-gemini-php/client/.php-cs-fixer.php
+src/vendor/google-gemini-php/client/.phpactor.json
+src/vendor/google-gemini-php/client/composer.lock
+src/vendor/google-gemini-php/client/vendor
+src/vendor/google-gemini-php/client/**/.idea
+
+# flyctl launch added from src/vendor/google-gemini-php/laravel/.gitignore
+src/vendor/google-gemini-php/laravel/.phpunit.cache
+src/vendor/google-gemini-php/laravel/.php-cs-fixer.cache
+src/vendor/google-gemini-php/laravel/.php-cs-fixer.php
+src/vendor/google-gemini-php/laravel/composer.lock
+src/vendor/google-gemini-php/laravel/vendor
+src/vendor/google-gemini-php/laravel/**/.idea
+
+# flyctl launch added from src/vendor/hamcrest/hamcrest-php/.gitignore
+src/vendor/hamcrest/hamcrest-php/**/composer.lock
+src/vendor/hamcrest/hamcrest-php/**/tests/.phpunit.result.cache
+src/vendor/hamcrest/hamcrest-php/**/vendor
+
+# flyctl launch added from src/vendor/mockery/mockery/docs/.gitignore
+src/vendor/mockery/mockery/docs/**/_build
+
+# flyctl launch added from src/vendor/psr/container/.gitignore
+src/vendor/psr/container/**/composer.lock
+src/vendor/psr/container/**/composer.phar
+src/vendor/psr/container/vendor
+
+# flyctl launch added from src/vendor/psr/event-dispatcher/.gitignore
+src/vendor/psr/event-dispatcher/vendor
+src/vendor/psr/event-dispatcher/**/composer.lock
+fly.toml
