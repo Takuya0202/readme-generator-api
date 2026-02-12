@@ -4,6 +4,12 @@ namespace App\Providers;
 
 use App\Contexts\Auth\Domain\Repository\UserRepository;
 use App\Contexts\Auth\Infrastructure\Repository\EloquentUserRepository;
+use App\Contexts\Project\Domain\Repository\MessageRepository;
+use App\Contexts\Project\Domain\Repository\ProjectRepository;
+use App\Contexts\Project\Domain\Service\GenerateReadmeService;
+use App\Contexts\Project\Infrastructure\Repository\EloquentMessageRepository;
+use App\Contexts\Project\Infrastructure\Repository\EloquentProjectRepository;
+use App\Contexts\Project\Infrastructure\Service\GeminiReadmeGeneratorService;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 use App\Models\PersonalAccessToken;
@@ -19,6 +25,18 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             UserRepository::class,
             EloquentUserRepository::class
+        );
+        $this->app->bind(
+            ProjectRepository::class,
+            EloquentProjectRepository::class
+        );
+        $this->app->bind(
+            GenerateReadmeService::class,
+            GeminiReadmeGeneratorService::class,
+        );
+        $this->app->bind(
+            MessageRepository::class,
+            EloquentMessageRepository::class
         );
     }
 
