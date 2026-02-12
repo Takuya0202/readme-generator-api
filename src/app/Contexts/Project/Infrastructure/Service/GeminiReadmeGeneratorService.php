@@ -29,7 +29,7 @@ class GeminiReadmeGeneratorService implements GenerateReadmeService
                             ),
                             'markdown' => new Schema(
                                 type: DataType::STRING,
-                                description: 'Markdown形式のREADME.md。改行は<br>タグを使用してください。'
+                                description: 'Markdown形式のREADME.mdの内容'
                             )
                         ],
                         required: ['summary', 'markdown']
@@ -81,7 +81,7 @@ class GeminiReadmeGeneratorService implements GenerateReadmeService
                             ),
                             'markdown' => new Schema(
                                 type: DataType::STRING,
-                                description: 'Markdown形式のREADME.md。改行は<br>タグを使用してください。'
+                                description: 'Markdown形式のREADME.mdの内容'
                             )
                         ],
                         required: ['summary', 'markdown']
@@ -208,7 +208,7 @@ INSTRUCTION;
         - 与えられた情報を自然で読みやすい日本語に変換してください
         - プロフェッショナルで見栄えの良い構成にしてください
         - 情報が「特になし」の場合は、その項目は省略してください
-        - markdownフィールド内で改行が必要な場合は、<br>タグを使用してください
+        - 通常のMarkdown記法を使用してください（見出し、リスト、コードブロックなど）
 
         ## プロジェクト情報
         - アプリ名: {$name}
